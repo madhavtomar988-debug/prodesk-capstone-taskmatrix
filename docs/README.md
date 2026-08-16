@@ -56,7 +56,7 @@ Teams often use multiple tools to manage tasks, sprints, progress, and project c
 
 ### System Architecture
 
-![TaskMatrix System Architecture](./architecture.png)
+![TaskMatrix System Architecture](docs/architecture.png)
 
 ### P2 – Stretch Features
 
