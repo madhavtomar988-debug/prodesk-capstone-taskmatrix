@@ -2,7 +2,11 @@
 
 ## Project Overview
 
-TaskMatrix is a full-stack Agile Project Management Platform designed to help teams manage projects, tasks, sprints, and team collaboration from a single dashboard.
+TaskMatrix is an Agile Project Management Platform designed to help teams manage projects, tasks, sprints, and team collaboration from a single dashboard.
+
+## Designated Track
+
+**Option 3 – TaskMatrix (Agile Project Management)**
 
 ## Problem Statement
 
@@ -16,35 +20,44 @@ Teams often use multiple tools to manage tasks, sprints, progress, and project c
 - Testers
 - Project Members
 
-## Core Features
-
-### Mandatory MVP
-- User authentication
-- Project creation and management
-- Task creation, editing, and deletion
-- Task status management
-- Kanban-style task board
-- Sprint management
-- Project dashboard
-- Team member management
-- Responsive UI
-
-### Advanced Features
-- Real-time task updates
-- Notifications
-- Search and filtering
-- Activity tracking
-- Analytics
-
-## Planned Technology Stack
+## Technology Stack
 
 - Frontend: Next.js / React
 - Backend: Node.js / Express
 - Database: MongoDB
-- Real-time Communication: Socket.IO
 - Authentication: JWT
-- Styling: CSS / Tailwind CSS
+- Styling: Tailwind CSS
+- Real-time Communication: Socket.IO
 - Deployment: Vercel
+
+## Prioritized Core Features
+
+### P0 – Mandatory MVP
+
+- Project dashboard
+- Task creation and deletion
+- Task status management
+- Kanban-style task board
+- Sprint management
+- Responsive UI
+
+### P1 – Priority Features
+
+- User authentication
+- Project creation and management
+- Team member management
+- Task editing
+- Search and filtering
+- UI/UX wireframes
+
+### P2 – Stretch Features
+
+- Real-time task updates
+- Notifications
+- Activity tracking
+- Analytics
+- Full-stack architecture
+- Database architecture and ERD
 
 ## Development Plan
 
@@ -59,4 +72,8 @@ Teams often use multiple tools to manage tasks, sprints, progress, and project c
 
 ## Sprint 13 Goal
 
-Build and deploy a functional Agile Project Management Platform with the mandatory MVP features and provide supporting documentation, architecture diagrams, wireframes, and project demo.
+Build a functional Agile Project Management Platform with the mandatory MVP features and supporting documentation, architecture diagrams, wireframes, and project demo.
+
+## Project Status
+
+Sprint 13 – Capstone Planning and MVP Development
