@@ -8,6 +8,17 @@ type Task = {
   status: "To Do" | "In Progress" | "Review" | "Done";
 };
 
+type Project = {
+  id: number;
+  name: string;
+};
+
+type Member = {
+  id: number;
+  name: string;
+  role: string;
+};
+
 const initialTasks: Task[] = [
   { id: 1, title: "Design login page", status: "To Do" },
   { id: 2, title: "Create dashboard", status: "In Progress" },
@@ -62,6 +73,8 @@ useEffect(() => {
     );
   }
 }, [sprintName, sprintStart, sprintEnd, sprintLoaded]);
+
+
 
   const addTask = () => {
     if (!newTask.trim()) return;
