@@ -50,6 +50,14 @@ Teams often use multiple tools to manage tasks, sprints, progress, and project c
 - Search and filtering
 - UI/UX wireframes
 
+### UI/UX Wireframes
+
+[Figma Wireframe – TaskMatrix](https://www.figma.com/design/EJGcLpNuCcQDVuQveUNvsD/sprint13-TaskMatrix-Wireframes?t=ysYAyLvCFw1KTYVi-1)
+
+### System Architecture
+
+![TaskMatrix System Architecture](./architecture.png)
+
 ### P2 – Stretch Features
 
 - Real-time task updates
