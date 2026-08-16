@@ -26,9 +26,22 @@ const initialTasks: Task[] = [
   { id: 4, title: "Setup project", status: "Done" },
 ];
 
+const initialProjects: Project[] = [
+  { id: 1, name: "TaskMatrix" },
+];
+
+const initialMembers: Member[] = [
+  { id: 1, name: "Maddy", role: "Project Manager" },
+  { id: 2, name: "Developer", role: "Developer" },
+];
+
 export default function Home() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [newTask, setNewTask] = useState("");
+  const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const [newProject, setNewProject] = useState("");
+  const [members, setMembers] = useState<Member[]>(initialMembers);
+  const [newMember, setNewMember] = useState("");
   const [sprintName, setSprintName] = useState("Sprint 1");
   const [sprintStart, setSprintStart] = useState("");
   const [sprintEnd, setSprintEnd] = useState("");
@@ -38,6 +51,8 @@ export default function Home() {
 useEffect(() => {
   const savedTasks = localStorage.getItem("taskmatrix_tasks");
   const savedSprint = localStorage.getItem("taskmatrix_sprint");
+  const savedProjects = localStorage.getItem("taskmatrix_projects");
+  const savedMembers = localStorage.getItem("taskmatrix_members");
 
   if (savedTasks) {
     setTasks(JSON.parse(savedTasks));
@@ -50,7 +65,12 @@ useEffect(() => {
     setSprintStart(sprint.sprintStart || "");
     setSprintEnd(sprint.sprintEnd || "");
   }
-
+  if (savedProjects) {
+  setProjects(JSON.parse(savedProjects));
+}
+  if (savedMembers) {
+  setMembers(JSON.parse(savedMembers));
+}
   setLoaded(true);
   setSprintLoaded(true);
 }, []);
@@ -60,6 +80,24 @@ useEffect(() => {
     localStorage.setItem("taskmatrix_tasks", JSON.stringify(tasks));
   }
 }, [tasks, loaded]);
+
+useEffect(() => {
+  if (loaded) {
+    localStorage.setItem(
+      "taskmatrix_projects",
+      JSON.stringify(projects)
+    );
+  }
+}, [projects, loaded]);
+
+useEffect(() => {
+  if (loaded) {
+    localStorage.setItem(
+      "taskmatrix_members",
+      JSON.stringify(members)
+    );
+  }
+}, [members, loaded]);
 
 useEffect(() => {
   if (sprintLoaded) {
@@ -74,7 +112,49 @@ useEffect(() => {
   }
 }, [sprintName, sprintStart, sprintEnd, sprintLoaded]);
 
+const addProject = () => {
+  if (!newProject.trim()) return;
 
+  setProjects([
+    ...projects,
+    {
+      id: Date.now(),
+      name: newProject,
+    },
+  ]);
+
+  const addMember = () => {
+  if (!newMember.trim()) return;
+
+  setMembers((prev) => [
+    ...prev,
+    {
+      id: Date.now(),
+      name: newMember,
+      role: "Team Member",
+    },
+  ]);
+
+  setNewMember("");
+};
+
+  setNewProject("");
+};
+
+const addMember = () => {
+  if (!newMember.trim()) return;
+
+  setMembers((prev) => [
+    ...prev,
+    {
+      id: Date.now(),
+      name: newMember,
+      role: "Team Member",
+    },
+  ]);
+
+  setNewMember("");
+};
 
   const addTask = () => {
     if (!newTask.trim()) return;
@@ -213,6 +293,82 @@ useEffect(() => {
       onChange={(e) => setSprintEnd(e.target.value)}
       className="rounded-lg border border-slate-700 bg-slate-800 px-3 py-2"
     />
+  </div>
+</div>
+
+<div className="mb-8 rounded-xl border border-slate-800 bg-slate-900 p-5">
+  <div className="mb-4 flex items-center justify-between">
+    <div>
+      <p className="text-sm text-cyan-400">PROJECTS</p>
+      <h3 className="mt-1 text-xl font-bold">Project Management</h3>
+    </div>
+  </div>
+
+  <div className="mb-4 flex flex-col gap-3 sm:flex-row">
+    <input
+      value={newProject}
+      onChange={(e) => setNewProject(e.target.value)}
+      placeholder="Enter project name..."
+      className="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 outline-none focus:border-cyan-400"
+    />
+
+    <button
+      onClick={addProject}
+      className="rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 hover:bg-cyan-400"
+    >
+      + Create Project
+    </button>
+  </div>
+
+  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    {projects.map((project) => (
+      <div
+        key={project.id}
+        className="rounded-lg border border-slate-700 bg-slate-800 p-4"
+      >
+        <p className="font-semibold">{project.name}</p>
+        <p className="mt-1 text-xs text-slate-400">
+          Active Project
+        </p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<div className="mb-8 rounded-xl border border-slate-800 bg-slate-900 p-5">
+  <div className="mb-4">
+    <p className="text-sm text-cyan-400">TEAM</p>
+    <h3 className="mt-1 text-xl font-bold">Team Members</h3>
+  </div>
+
+  <div className="mb-4 flex flex-col gap-3 sm:flex-row">
+    <input
+      value={newMember}
+      onChange={(e) => setNewMember(e.target.value)}
+      placeholder="Enter member name..."
+      className="flex-1 rounded-lg border border-slate-700 bg-slate-800 px-4 py-3 outline-none focus:border-cyan-400"
+    />
+
+    <button
+      onClick={addMember}
+      className="rounded-lg bg-cyan-500 px-6 py-3 font-semibold text-slate-950 hover:bg-cyan-400"
+    >
+      + Add Member
+    </button>
+  </div>
+
+  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    {members.map((member) => (
+      <div
+        key={member.id}
+        className="rounded-lg border border-slate-700 bg-slate-800 p-4"
+      >
+        <p className="font-semibold">{member.name}</p>
+        <p className="mt-1 text-xs text-slate-400">
+          {member.role}
+        </p>
+      </div>
+    ))}
   </div>
 </div>
 
