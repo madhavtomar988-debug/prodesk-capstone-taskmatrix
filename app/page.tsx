@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useAuthStore } from "@/store/authStore";
 
 type Task = {
   id: number;
@@ -36,6 +38,29 @@ const initialMembers: Member[] = [
 ];
 
 export default function Home() {
+  const logout = useAuthStore((state) => state.logout);
+  useEffect(() => {
+  const token = localStorage.getItem("taskmatrix_token");
+
+  if (!token) {
+    window.location.href = "/login";
+    return;
+  }
+
+  try {
+    const decoded = jwtDecode<{ exp?: number }>(token);
+
+    if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+      localStorage.removeItem("taskmatrix_token");
+      localStorage.removeItem("taskmatrix_user");
+      window.location.href = "/login";
+    }
+  } catch {
+    localStorage.removeItem("taskmatrix_token");
+    localStorage.removeItem("taskmatrix_user");
+    window.location.href = "/login";
+  }
+}, []);
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [newTask, setNewTask] = useState("");
   const [projects, setProjects] = useState<Project[]>(initialProjects);
@@ -198,9 +223,17 @@ const addMember = () => {
       <header className="border-b border-slate-800 bg-slate-900 px-6 py-5">
         <div className="mx-auto flex max-w-7xl items-center justify-between">
           <h1 className="text-2xl font-bold text-cyan-400">TaskMatrix</h1>
-          <button className="rounded-lg bg-slate-800 px-4 py-2 text-sm">
-            Profile
-          </button>
+          <button
+  onClick={() => {
+    logout();
+    localStorage.removeItem("taskmatrix_token");
+    localStorage.removeItem("taskmatrix_user");
+    window.location.href = "/login";
+  }}
+  className="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold"
+>
+  Logout
+</button>
         </div>
       </header>
 

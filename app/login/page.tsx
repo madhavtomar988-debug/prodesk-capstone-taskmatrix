@@ -2,15 +2,16 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuthStore } from "@/store/authStore";
 
 export default function LoginPage() {
   const router = useRouter();
-
+  const setAuth = useAuthStore((state) => state.setAuth);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -18,8 +19,28 @@ export default function LoginPage() {
       return;
     }
 
-    localStorage.setItem("taskmatrix_user", email);
-    router.push("/");
+    const response = await fetch("/api/auth/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    email,
+    password,
+  }),
+});
+
+const data = await response.json();
+
+if (!response.ok) {
+  setError(data.message || "Login failed");
+  return;
+}
+
+localStorage.setItem("taskmatrix_token", data.token);
+localStorage.setItem("taskmatrix_user", JSON.stringify(data.user));
+setAuth(data.token, data.user);
+router.push("/");
   };
 
   return (
